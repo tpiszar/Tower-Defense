@@ -14,7 +14,8 @@ public class CannonBall : MonoBehaviour
         }
         else if (other.gameObject.layer == 7)
         {
-            other.GetComponentInParent<Enemy>().TakeDamage(dmg);
+            //other.GetComponentInParent<Enemy>().TakeDamage(dmg);
+            other.GetComponent<Enemy>().TakeDamage(dmg);
             Destroy(this.gameObject);
         }
     }

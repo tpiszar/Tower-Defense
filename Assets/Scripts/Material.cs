@@ -23,6 +23,7 @@ public class Material : MonoBehaviour
         if (collision.gameObject.layer == 3)
         {
             Manager.materials += quantity;
+            quantity = 0;
             Destroy(this.gameObject);
         }
     }

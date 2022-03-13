@@ -105,11 +105,11 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         health -= dmg;
-        print(health);
         if (health <= 0)
         {
             GameObject mats = Instantiate(materials, transform.position, Quaternion.identity);
             mats.GetComponent<Material>().quantity = matDrop;
+            print(mats.GetComponent<Material>().quantity);
             Destroy(this.gameObject);
         }
     }

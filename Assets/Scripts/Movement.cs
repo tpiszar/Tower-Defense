@@ -67,7 +67,6 @@ public class Movement : MonoBehaviour
         Enemy enemy = collision.gameObject.GetComponent<Enemy>();
         if (enemy)
         {
-            print("Player");
             Vector3 dir = transform.position - enemy.transform.position;
             impact = dir.normalized * bounceForce / 3f;
         }

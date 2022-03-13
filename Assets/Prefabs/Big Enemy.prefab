@@ -201,7 +201,7 @@ MonoBehaviour:
   shotSpeed: 20
   fireRate: 2
   fireMode: 2
-  health: 100
+  health: 200
   materials: {fileID: 8649327011882839524, guid: d94d5e61933fb7045ad4be9c673f6ba3, type: 3}
   matDrop: 50
 --- !u!65 &782928979677279746

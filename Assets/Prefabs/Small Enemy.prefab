@@ -71,7 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 6240388745096875716}
   target: {fileID: 0}
-  shot: {fileID: 2392515813684458209, guid: fbabab76d4bbbad47a305842d2f47d06, type: 3}
+  shot: {fileID: 1848275425418699401, guid: 1487068fc4c98534f8437d55a0160f93, type: 3}
   cannon: {fileID: 0}
   left: {fileID: 8947423707192170739}
   backLeft: {fileID: 6240388746333772908}
