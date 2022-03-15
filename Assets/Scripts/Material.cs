@@ -7,14 +7,15 @@ public class Material : MonoBehaviour
     public float rotationSpeed;
     public int quantity = 0;
     public float deathTime;
-
-    void Start()
-    {
-        Destroy(this.gameObject, deathTime);
-    }
+    public float time = 0;
 
     void Update()
     {
+        if (time >= deathTime)
+        {
+            Destroy(this.gameObject);
+        }
+        time += Time.deltaTime;
         transform.Rotate(Vector3.up * (rotationSpeed * Time.deltaTime));
     }
 

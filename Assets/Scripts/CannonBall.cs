@@ -8,15 +8,19 @@ public class CannonBall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 0)
+        if (other.gameObject.layer == 0 || other.gameObject.layer == 8)
         {
             Destroy(this.gameObject);
         }
         else if (other.gameObject.layer == 7)
         {
-            //other.GetComponentInParent<Enemy>().TakeDamage(dmg);
-            other.GetComponent<Enemy>().TakeDamage(dmg);
-            Destroy(this.gameObject);
+            Enemy e = other.GetComponent<Enemy>();
+            if (e)
+            {
+                e.TakeDamage(dmg);
+                Destroy(this.gameObject);
+            }
+
         }
     }
 }

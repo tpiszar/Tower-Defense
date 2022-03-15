@@ -7,42 +7,51 @@ using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject resume;
-    public GameObject quit;
-    public GameObject newGame;
+    public GameObject crosshair;
+    public GameObject pause;
+    public GameObject endScreen;
+    public TextMeshProUGUI results;
+    public GameObject volume;
     public TextMeshProUGUI wave;
     public TextMeshProUGUI mats;
     bool isPaused = false;
-    bool end = false;
+    bool end = true;
 
     public AudioSource click;
-    public AudioSource music;
-
-    private void Start()
-    {
-        resume.SetActive(false);
-        quit.SetActive(false);
-        newGame.SetActive(false);
-    }
 
     private void Update()
     {
-        wave.text = "Wave: " + Manager.wave.ToString();
-        mats.text = "Materials: " + Manager.materials.ToString();
-        if (Input.GetButtonDown("Cancel") && !end)
+        if (Manager.wave <= 10)
         {
-            //TogglePause();
+            wave.text = "Wave: " + Manager.wave.ToString();
+            mats.text = "Materials: " + Manager.materials.ToString();
         }
-        if (Manager.gameOver)
+        if (Input.GetButtonDown("Cancel") && end)
         {
-            end = false;
-            Time.timeScale = 0.0f;
-            this.gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0.34509803921f);
-            newGame.SetActive(true);
-            quit.SetActive(true);
-            music.Stop();
-            Cursor.lockState = CursorLockMode.None;
+            TogglePause();
         }
+        if ((Manager.gameOver || Manager.win) && end)
+        {
+            Invoke("doEnd", 3);
+        }
+    }
+
+    public void doEnd()
+    {
+        end = false;
+        Time.timeScale = 0.0f;
+        this.gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0.34509803921f);
+        crosshair.SetActive(false);
+        endScreen.SetActive(true);
+        if (Manager.win)
+        {
+            results.text = "Victory";
+        }
+        else
+        {
+            results.text = "Game Over";
+        }
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void TogglePause()
@@ -51,25 +60,38 @@ public class PauseMenu : MonoBehaviour
         if (isPaused)
         {
             //unpause
-            music.UnPause();
             this.gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
             isPaused = false;
             Time.timeScale = 1.0f;
-            resume.SetActive(false);
-            quit.SetActive(false);
+            pause.SetActive(false);
+            crosshair.SetActive(true);
+            volume.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
         }
         else
         {
             //pause
-            music.Pause();
             this.gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0.34509803921f);
             isPaused = true;
             Time.timeScale = 0.0f;
-            resume.SetActive(true);
-            quit.SetActive(true);
+            pause.SetActive(true);
+            crosshair.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
         }
+    }
+
+    public void Volume()
+    {
+        click.Play();
+        pause.SetActive(false);
+        volume.SetActive(true);
+    }
+
+    public void Back()
+    {
+        click.Play();
+        pause.SetActive(true);
+        volume.SetActive(false);
     }
 
     public void OnApplicationQuit()
@@ -78,8 +100,14 @@ public class PauseMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void Restart(string name)
+    public void LoadLevel(string name)
     {
+        Music music = GameObject.FindGameObjectWithTag("Music").GetComponent<Music>();
+        music.loss.Stop();
+        music.victory.Stop();
+        music.calm.Play();
+        music.calm.volume = music.calmVol;
+
         click.Play();
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(name);

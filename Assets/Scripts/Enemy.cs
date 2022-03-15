@@ -29,6 +29,11 @@ public class Enemy : MonoBehaviour
     public GameObject materials;
     public int matDrop;
 
+    public AudioSource shootSnd;
+
+    public GameObject death;
+    public AudioSource deathSnd;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -89,6 +94,7 @@ public class Enemy : MonoBehaviour
                             GameObject newShot = Instantiate(shot, shootFrom, rotation);
                             newShot.GetComponent<Rigidbody>().AddForce(dir * shotSpeed, ForceMode.Impulse);
                         }
+                        shootSnd.Play();
 
                         nextFire = 0;
                     }
@@ -107,9 +113,11 @@ public class Enemy : MonoBehaviour
         health -= dmg;
         if (health <= 0)
         {
+            death.transform.parent = null;
+            deathSnd.Play();
+            Destroy(death, 5);
             GameObject mats = Instantiate(materials, transform.position, Quaternion.identity);
             mats.GetComponent<Material>().quantity = matDrop;
-            print(mats.GetComponent<Material>().quantity);
             Destroy(this.gameObject);
         }
     }

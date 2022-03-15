@@ -6,6 +6,8 @@ public class PlacePing : MonoBehaviour
 {
     public Camera cam;
     public float range = 50f;
+
+    public LayerMask mask;
     
     public GameObject ping;
 
@@ -15,7 +17,7 @@ public class PlacePing : MonoBehaviour
         if (Input.GetButtonDown("Fire2"))
         {
             RaycastHit hit;
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, mask))
             {
                 Vector3 pos = hit.point;
                 pos.y = 30;

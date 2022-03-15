@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Panel : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Panel : MonoBehaviour
     public GameObject square;
     public GameObject circle;
     public GameObject rotate;
+    public GameObject canvas;
+    public Slider healthBar;
 
     public Transform spawnLoc;
     public GameObject cannon;
@@ -16,15 +19,23 @@ public class Panel : MonoBehaviour
     public GameObject single;
     public GameObject omni;
 
+    public AudioSource create;
+    public AudioSource destroy;
+
     public void spawnSingle()
     {
         if (Manager.materials >= 100)
         {
+            create.Play();
             Manager.materials -= 100;
             cannon = Instantiate(single, spawnLoc.position, Quaternion.identity);
-            cannon.GetComponent<Cannon>().panel = this;
+            Cannon can = cannon.GetComponent<Cannon>();
+            can.panel = this;
+            can.healthBar = healthBar;
+            healthBar.value = can.health;
             square.SetActive(false);
             rotate.SetActive(true);
+            canvas.SetActive(true);
             detectorBox.SetActive(true);
             mode = 2;
         }
@@ -34,10 +45,15 @@ public class Panel : MonoBehaviour
     {
         if (Manager.materials >= 200)
         {
+            create.Play();
             Manager.materials -= 200;
             cannon = Instantiate(omni, spawnLoc.position, Quaternion.identity);
-            cannon.GetComponent<Cannon>().panel = this;
+            Cannon can = cannon.GetComponent<Cannon>();
+            can.panel = this;
+            can.healthBar = healthBar;
+            healthBar.value = can.health;
             circle.SetActive(false);
+            canvas.SetActive(true);
             detectorBox.SetActive(true);
             mode = 3;
         }
@@ -85,8 +101,10 @@ public class Panel : MonoBehaviour
 
     public void Reset()
     {
+        destroy.Play();
         square.SetActive(true);
         circle.SetActive(false);
+        canvas.SetActive(false);
         rotate.SetActive(false);
         detectorBox.SetActive(false);
         mode = 0;

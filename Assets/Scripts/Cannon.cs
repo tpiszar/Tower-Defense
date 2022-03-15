@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cannon : MonoBehaviour
 {
@@ -15,9 +16,12 @@ public class Cannon : MonoBehaviour
     float nextFire = 0;
 
     public int health;
+    public Slider healthBar;
 
     public GameObject materials;
     public int matDrop;
+
+    public AudioSource fireSnd;
 
     // Start is called before the first frame update
     void Start()
@@ -29,8 +33,9 @@ public class Cannon : MonoBehaviour
     void Update()
     {
         nextFire += Time.deltaTime;
-        if (nextFire >= fireRate)
+        if (nextFire >= fireRate && !Manager.calm)
         {
+            fireSnd.Play();
             GameObject newCannonBall = Instantiate(cannonBall, barrel.position, Quaternion.identity);
             Vector3 dir = barrel.position - center.position;
             dir = dir.normalized;
@@ -42,6 +47,7 @@ public class Cannon : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         health -= dmg;
+        healthBar.value = health;
         if (health <= 0)
         {
             panel.Reset();

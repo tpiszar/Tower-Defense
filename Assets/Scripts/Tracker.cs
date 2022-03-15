@@ -26,7 +26,7 @@ public class Tracker : MonoBehaviour
             if (oMat && mat.quantity >= oMat.quantity)
             {
                 mat.quantity += oMat.quantity;
-                print(this.gameObject.name + " " + other.gameObject.name);
+                mat.time = 0;
                 Destroy(other.gameObject);
             }
         }
