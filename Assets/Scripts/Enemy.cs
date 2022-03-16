@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
 
     public GameObject death;
     public AudioSource deathSnd;
+    public AudioSource movement;
 
     // Start is called before the first frame update
     void Start()
@@ -104,6 +105,7 @@ public class Enemy : MonoBehaviour
             {
                 shooting = false;
                 agent.isStopped = false;
+                movement.UnPause();
             }
         }
     }
@@ -120,5 +122,24 @@ public class Enemy : MonoBehaviour
             mats.GetComponent<Material>().quantity = matDrop;
             Destroy(this.gameObject);
         }
+    }
+}
+
+public static class ExtensionMethods
+{
+    public static float GetPathRemainingDistance(this NavMeshAgent navMeshAgent)
+    {
+        if (navMeshAgent.pathPending ||
+            navMeshAgent.pathStatus == NavMeshPathStatus.PathInvalid ||
+            navMeshAgent.path.corners.Length == 0)
+            return -1f;
+
+        float distance = 0.0f;
+        for (int i = 0; i < navMeshAgent.path.corners.Length - 1; ++i)
+        {
+            distance += Vector3.Distance(navMeshAgent.path.corners[i], navMeshAgent.path.corners[i + 1]);
+        }
+
+        return distance;
     }
 }

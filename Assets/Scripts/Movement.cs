@@ -17,6 +17,8 @@ public class Movement : MonoBehaviour
     public LayerMask groundMask;
     bool isGrounded;
 
+    public AudioSource zap;
+
     void Start()
     {
         stepOffset = controller.stepOffset;
@@ -67,6 +69,7 @@ public class Movement : MonoBehaviour
         Enemy enemy = collision.gameObject.GetComponent<Enemy>();
         if (enemy)
         {
+            zap.Play();
             Vector3 dir = transform.position - enemy.transform.position;
             impact = dir.normalized * bounceForce / 3f;
         }

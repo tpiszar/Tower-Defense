@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class Manager : MonoBehaviour
     float nextSub = 0;
 
     bool waveStart = true;
+
+    public Slider distance;
 
     [System.Serializable]
     public class subWave
@@ -62,6 +65,24 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
+        if (transform.childCount > 0)
+        {
+            float min = transform.GetChild(0).GetComponent<Enemy>().agent.GetPathRemainingDistance();
+            for (int i = 1; i < transform.childCount; i++)
+            {
+                float temp = transform.GetChild(i).GetComponent<Enemy>().agent.GetPathRemainingDistance();
+                if (temp < min)
+                {
+                    min = temp;
+                }
+            }
+            distance.value = distance.maxValue - min;
+        }
+        else
+        {
+            distance.value = 0;
+        }
+
         if (wave <= 10)
         {
             if (nextWave > waveDelay)
@@ -121,7 +142,7 @@ public class Manager : MonoBehaviour
                 nextWave += Time.deltaTime;
             }
         }
-        else
+        else if (!win)
         {
             win = true;
             Music.playWin = true;

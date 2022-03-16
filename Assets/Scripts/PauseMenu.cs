@@ -23,8 +23,10 @@ public class PauseMenu : MonoBehaviour
     {
         if (Manager.wave <= 10)
         {
-            wave.text = "Wave: " + Manager.wave.ToString();
-            mats.text = "Materials: " + Manager.materials.ToString();
+            //wave.text = "Wave: " + Manager.wave.ToString();
+            //mats.text = "Materials: " + Manager.materials.ToString();
+            wave.text = Manager.wave.ToString();
+            mats.text = ": " + Manager.materials.ToString();
         }
         if (Input.GetButtonDown("Cancel") && end)
         {
@@ -60,6 +62,7 @@ public class PauseMenu : MonoBehaviour
         if (isPaused)
         {
             //unpause
+            AudioListener.volume = PlayerPrefs.GetFloat("volume");
             this.gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
             isPaused = false;
             Time.timeScale = 1.0f;
@@ -71,6 +74,7 @@ public class PauseMenu : MonoBehaviour
         else
         {
             //pause
+            AudioListener.volume = 0;
             this.gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0.34509803921f);
             isPaused = true;
             Time.timeScale = 0.0f;
@@ -104,7 +108,11 @@ public class PauseMenu : MonoBehaviour
     {
         Music music = GameObject.FindGameObjectWithTag("Music").GetComponent<Music>();
         music.loss.Stop();
+        music.loss.volume = 0;
         music.victory.Stop();
+        music.victory.volume = 0;
+        music.attack.Stop();
+        music.attack.volume = 0;
         music.calm.Play();
         music.calm.volume = music.calmVol;
 

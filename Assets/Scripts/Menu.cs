@@ -9,18 +9,17 @@ public class Menu : MonoBehaviour
     public GameObject[] screens;
     public GameObject main;
 
-    private void Start()
-    {
-        Main();
-    }
+    public AudioSource click;
 
     public void LoadLevel(string name)
     {
+        click.Play();
         SceneManager.LoadScene(name);
     }
 
     public void Main()
     {
+        click.Play();
         foreach (GameObject i in screens)
         {
             i.SetActive(false);
@@ -30,13 +29,14 @@ public class Menu : MonoBehaviour
 
     public void Swap(int screen)
     {
+        click.Play();
         main.SetActive(false);
         screens[screen].SetActive(true);
     }
 
     public void OnApplicationQuit()
     {
-        //click.Play();
+        click.Play();
         Application.Quit();
     }
 }

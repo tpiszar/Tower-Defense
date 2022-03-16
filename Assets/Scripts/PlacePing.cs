@@ -11,6 +11,8 @@ public class PlacePing : MonoBehaviour
     
     public GameObject ping;
 
+    public AudioSource place;
+
     // Update is called once per frame
     void Update()
     {
@@ -19,6 +21,7 @@ public class PlacePing : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, mask))
             {
+                place.Play();
                 Vector3 pos = hit.point;
                 pos.y = 30;
                 ping.transform.position = pos;

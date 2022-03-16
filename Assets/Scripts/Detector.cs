@@ -10,10 +10,14 @@ public class Detector : MonoBehaviour
     {
         if (other.gameObject.layer == 2 && other.gameObject.name == "DetectorBox" &&e.cannon == null)
         {
-            e.agent.isStopped = true;
-            e.shooting = true;
-            e.rotating = true;
-            e.cannon = other.transform.parent.GetComponent<Panel>().cannon.transform;
+            if (e && !e.agent.isStopped)
+            {
+                e.movement.Pause();
+                e.agent.isStopped = true;
+                e.shooting = true;
+                e.rotating = true;
+                e.cannon = other.transform.parent.GetComponent<Panel>().cannon.transform;
+            }
         }
     }
 }

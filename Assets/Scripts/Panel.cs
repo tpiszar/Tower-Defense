@@ -21,11 +21,14 @@ public class Panel : MonoBehaviour
 
     public AudioSource create;
     public AudioSource destroy;
+    public AudioSource click;
+    public AudioSource error;
 
     public void spawnSingle()
     {
         if (Manager.materials >= 100)
         {
+            click.Play();
             create.Play();
             Manager.materials -= 100;
             cannon = Instantiate(single, spawnLoc.position, Quaternion.identity);
@@ -39,12 +42,20 @@ public class Panel : MonoBehaviour
             detectorBox.SetActive(true);
             mode = 2;
         }
+        else
+        {
+            if (!error.isPlaying)
+            {
+                error.Play();
+            }
+        }
     }
 
     public void spawnOmni()
     {
         if (Manager.materials >= 200)
         {
+            click.Play();
             create.Play();
             Manager.materials -= 200;
             cannon = Instantiate(omni, spawnLoc.position, Quaternion.identity);
@@ -57,24 +68,34 @@ public class Panel : MonoBehaviour
             detectorBox.SetActive(true);
             mode = 3;
         }
+        else
+        {
+            if (!error.isPlaying)
+            {
+                error.Play();
+            }
+        }
     }
 
     public void rBtn()
     {
         if (mode == 0)
         {
+            click.Play();
             square.SetActive(false);
             circle.SetActive(true);
             mode = 1;
         }
         else if (mode == 1)
         {
+            click.Play();
             square.SetActive(true);
             circle.SetActive(false);
             mode = 0;
         }
         else if (mode == 2)
         {
+            click.Play();
             cannon.transform.Rotate(0, -45, 0);
         }
     }
@@ -83,18 +104,21 @@ public class Panel : MonoBehaviour
     {
         if (mode == 0)
         {
+            click.Play();
             square.SetActive(false);
             circle.SetActive(true);
             mode = 1;
         }
         else if (mode == 1)
         {
+            click.Play();
             square.SetActive(true);
             circle.SetActive(false);
             mode = 0;
         }
         else if (mode == 2)
         {
+            click.Play();
             cannon.transform.Rotate(0, 45, 0);
         }
     }

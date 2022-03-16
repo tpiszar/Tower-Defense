@@ -18,19 +18,19 @@ public class Tracker : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == 10)
-        {
-            Material oMat = other.GetComponent<Material>();
-            if (oMat && mat.quantity >= oMat.quantity)
-            {
-                mat.quantity += oMat.quantity;
-                mat.time = 0;
-                Destroy(other.gameObject);
-            }
-        }
-    }
+    //public void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.layer == 10)
+    //    {
+    //        Material oMat = other.GetComponent<Material>();
+    //        if (oMat && mat.quantity >= oMat.quantity)
+    //        {
+    //            mat.quantity += oMat.quantity;
+    //            mat.time = 0;
+    //            Destroy(other.gameObject);
+    //        }
+    //    }
+    //}
 
     private void OnTriggerExit(Collider other)
     {
